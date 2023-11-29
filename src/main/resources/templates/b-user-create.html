@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <title>User create</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link th:href="@{styles.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div class="table-wrapper">
+        <div class="table-title">
+            <div class="row">
+                <div class="col-sm-8"><h2>User <b>Details</b></h2></div>
+            </div>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Second Name</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <form action="#" th:method="POST" th:object="${user}" th:action="@{/user-create}">
+                <tbody>
+                <tr>
+                    <td>
+                        <div class="mb-3">
+                            <input type="text" th:field="*{firstName}" class="form-control" id="f_name">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="mb-3">
+                            <input type="text" th:field="*{lastName}" class="form-control" id="s_name">
+                        </div>
+                    </td>
+                    <td>
+                        <button type="submit" class="btn btn-primary"> Add</button>
+                    </td>
+                </tr>
+                </tbody>
+            </form>
+        </table>
+    </div>
+</div>
+</body>
+</html>
