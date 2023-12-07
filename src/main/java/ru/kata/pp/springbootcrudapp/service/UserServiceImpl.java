@@ -1,5 +1,6 @@
 package ru.kata.pp.springbootcrudapp.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -18,14 +19,19 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public Page<User> fetchUsers(Integer page, Integer size) {
+    public Page<UserDto> fetchUsers(Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page, size);
-        return userRepository.findAll(pageable);
+        return userRepository.findAll(pageable).
+                map(user -> modelMapper.map(user, UserDto.class));
     }
 
     @Transactional(readOnly = true)
     public UserDto findById(Long id) {
-        return modelMapper.map(userRepository.getReferenceById(id), UserDto.class);
+        return modelMapper.map(
+                userRepository.findById(id)
+                        .orElseThrow(() -> new EntityNotFoundException("user with id = %d not found".formatted(id))),
+                UserDto.class
+        );
     }
 
     @Transactional
@@ -35,6 +41,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public void deleteById(Long id) {
-        userRepository.deleteById(id);
+        userRepository.findById(id)
+                .ifPresent(userRepository::delete);
     }
 }

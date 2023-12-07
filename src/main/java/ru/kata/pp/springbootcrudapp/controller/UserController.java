@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.kata.pp.springbootcrudapp.dto.UserDto;
-import ru.kata.pp.springbootcrudapp.model.User;
 import ru.kata.pp.springbootcrudapp.service.UserService;
 
 import java.util.List;
@@ -35,7 +34,7 @@ public class UserController {
                           Model model) {
         log.info("handling users request: {} {}", page, size);
 
-        Page<User> usersPage = userService.fetchUsers(page - 1, size);
+        Page<UserDto> usersPage = userService.fetchUsers(page - 1, size);
         model.addAttribute("users_page", usersPage);
 
         int totalPages = usersPage.getTotalPages();
